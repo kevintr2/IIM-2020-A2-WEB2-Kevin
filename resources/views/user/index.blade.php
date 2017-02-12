@@ -15,6 +15,17 @@
                                 <li>E-mail: {{Auth::user()->email}}</li>
                                 <li>Date d'inscription: {{Auth::user()->created_at}}</li>
                             </ul>
+                            <h3>Liste des articles publiés</h3>
+                            <ul>
+                                @foreach($articles as $article)
+                                    <div style="background-color:#FFF; margin:10px 0px; padding: 10px;" class="col-md-10">
+
+                                        <h3>{{$article->title}}</h3>
+                                        <p>{{$article->content}}</p>
+                                        <small class="pull-right">publié le {{$article->created_at}} par {{$article->user->name}}</small>
+                                    </div>
+                                @endforeach
+                            </ul>
                         @else
                             <h2>Vous n'avez pas de profil</h2>
                         @endif

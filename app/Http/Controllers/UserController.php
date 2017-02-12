@@ -2,10 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Article;
+use App\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +26,9 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('user.index');
+        $user = User::find(Auth::user()->id);
+        $articles = $user->articles;
+        return view('user.index', compact('articles'));
     }
 
     /**

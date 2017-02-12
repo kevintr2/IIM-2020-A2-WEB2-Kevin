@@ -8,10 +8,17 @@
             </div>
         </div>
         <div class="row">
+            @if(session('success'))
+                <div class="col-md-10 col-md-push-1">
+                    <div class="alert alert-success">
+                        {{session('success')}}
+                    </div>
+                </div>
+            @endif
             @foreach($articles as $article)
                 <div style="background-color:#FFF; margin:10px 0px; padding: 10px;" class="col-md-10 col-md-push-1">
 
-                    <h3>{{$article->title}}</h3>
+                    <a href="{{route ('articles.show', $article->id)}}"><h3>{{$article->title}}</h3></a>
                     <p>{{$article->content}}</p>
                     <small class="pull-right">publié le {{$article->created_at}} par {{$article->user->name}}</small>
                 </div>
