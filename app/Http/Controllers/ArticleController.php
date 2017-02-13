@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Article;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleController extends Controller
 {
@@ -42,7 +45,7 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -55,20 +58,34 @@ class ArticleController extends Controller
             'content.required' => 'Un contenu est requis.',
         ]);
 
-        Article::create([
+        $newArticle = Article::create([
             'user_id' => Auth::user()->id,
             'title' => $request->title,
             'content' => $request->content,
-            'image' => $request->image,
+            'image' => str_random(15) . '.jpg',
         ]);
 
+        $file = $request->file('image');
+        $filename = $newArticle->image;
+
+        if($file)
+        {
+            Storage::disk('uploads')->put($filename, File::get($file));
+        }
+
         return redirect()->route('articles.index')->with('success', "L'article a bien été crée");
+    }
+
+    public function getUploadedImage($filename)
+    {
+        $file = Storage::disk('uploads')->get($filename);
+        return new Response($file, 200);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -80,7 +97,7 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -92,15 +109,15 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
         Article::where('id', $id)->update([
-            'title'=>$request->title,
-            'content'=>$request->content,
+            'title' => $request->title,
+            'content' => $request->content,
         ]);
 
         return redirect()->route('articles.show', [$id])->with('success', 'Article modifié');
@@ -109,7 +126,7 @@ class ArticleController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)

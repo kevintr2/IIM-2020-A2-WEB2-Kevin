@@ -17,6 +17,10 @@ Route::get('/', function () {
 
 Route::resource('articles', 'ArticleController');
 Route::resource('users', 'UserController');
+Route::get('/images/{filename}', [
+    'uses' => 'ArticleController@getUploadedImage',
+    'as' => 'articles.image'
+]);
 Auth::routes();
 
 Route::get('/home', 'HomeController@index');

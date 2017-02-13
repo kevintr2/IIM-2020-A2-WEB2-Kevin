@@ -12,7 +12,7 @@
 
         <div class="row">
             <div class="col-md-10 col-md-offset-1">
-                <form method="post" action="{{route('articles.store')}}">
+                <form method="post" action="{{route('articles.store')}}" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="form-group">
                         <label for="title">Titre</label>
@@ -26,7 +26,7 @@
                     </div>
                     <div class="form-group">
                         <label for="image">Image</label>
-                        <input id="image" type="file" class="file">
+                        <input id="image" name="image" type="file" class="image">
                     </div>
                     <button type="submit" class="btn btn-primary">Publier</button>
                 </form>
