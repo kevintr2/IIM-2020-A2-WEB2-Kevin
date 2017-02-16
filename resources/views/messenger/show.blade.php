@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', $thread->subject)
+
 @section('content')
     <div class="col-md-12">
         <h2 class="text-center">{{ $thread->subject }}</h2>

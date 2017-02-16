@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('pageTitle', 'Panneau d\'administrateur')
+
 @section('content')
         <div class="comment-section text-center">
             <h2>Bienvenue {{ Auth::user()->name }}, sur le panneau d'administration</h2>

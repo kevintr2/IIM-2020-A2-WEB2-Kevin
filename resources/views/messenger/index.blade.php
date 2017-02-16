@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', 'Messages')
+
 @section('content')
     @include('messenger.partials.flash')
 

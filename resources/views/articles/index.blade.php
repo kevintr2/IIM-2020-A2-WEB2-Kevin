@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', 'Accueil')
+
 @section('content')
     @if(session('success'))
         <div class="col-md-12">

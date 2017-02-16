@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', 'Editer son profil')
+
 @section('content')
 
     @include('messages.errors')
@@ -14,6 +16,10 @@
             <div class="form-group">
                 <label for="email">Adresse Mail</label>
                 <input type="text" class="form-control" name="email" id="email" value="{{$edit->email}}">
+            </div>
+            <div class="form-group">
+                <label for="image">Image</label> <small>facultatif</small>
+                <input id="image" name="image" type="file" class="image">
             </div>
            <!-- <div class="form-group">
                 <label for="image">Image</label> <small>facultatif</small>

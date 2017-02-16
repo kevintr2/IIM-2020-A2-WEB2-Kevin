@@ -17,7 +17,7 @@ class isProfilOwner
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && intval($request->route('user')) == Auth::user()->id){
+        if(Auth::check() && intval($request->route('user')) == Auth::user()->id || Auth::user()->admin == 1){
             return $next($request);
         }else{
             return redirect('articles');

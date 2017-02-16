@@ -6,6 +6,8 @@ use App\Article;
 use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -87,10 +89,25 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+
+        $file = $request->file('image');
+
+        if ($file) {
+            $useredit = User::where('id', $id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+                'image' => str_random(15) . '.jpg',
+            ]);
+
+            $filename = User::find($id)->image;
+
+            Storage::disk('uploads')->put($filename, File::get($file));
+        } else {
             User::where('id', $id)->update([
                 'name' => $request->name,
                 'email' => $request->email,
             ]);
+        }
 
         return redirect()->route('users.index', [$id])->with('success', 'Profil modifié avec succès');
     }

@@ -17,7 +17,7 @@ class isArticleOwner
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Article::find(intval($request->route('article')))->user_id == Auth::user()->id){
+        if(Auth::check() && Article::find(intval($request->route('article')))->user_id == Auth::user()->id || Auth::user()->admin == 1){
             return $next($request);
         }else{
             return redirect('articles');

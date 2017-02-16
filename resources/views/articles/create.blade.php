@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', 'Créer un article')
+
 @section('content')
 
         @include('messages.errors')

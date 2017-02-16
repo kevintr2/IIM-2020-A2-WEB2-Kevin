@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', $show->title)
+
 @section('content')
     @if(session('success'))
         <div class="alert alert-success">

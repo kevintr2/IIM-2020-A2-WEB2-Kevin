@@ -1,7 +1,8 @@
 @extends('layouts.app')
 
+@section('pageTitle', Auth::user()->name)
 
-<div class="article-section">
+
     @section('content')
         @if(session('success'))
             <div class="col-md-12">
@@ -19,6 +20,16 @@
 
         <div class="profile-content">
             @if(Auth::check())
+                <div class="pull-right profilpicture">
+                    @if(Storage::disk('uploads')->has(Auth::user()->image))
+                        <img src="{{route('articles.image', ['filename'=> Auth::user()->image])}}" alt="img"
+                             class="img-responsive">
+                    @else
+                    @endif
+                    @if(!Storage::disk('uploads')->has(Auth::user()->image))
+                        <img src="{{ Auth::user()->image }}" alt="img" class="img-responsive">
+                    @endif
+                </div>
                 <ul>
                     <li><b>Nom</b>: {{Auth::user()->name}}</li>
                     <li><b>E-mail</b>: {{Auth::user()->email}}</li>
@@ -50,5 +61,4 @@
                 <h2>Vous n'avez pas de profil</h2>
             @endif
         </div>
-</div>
 @endsection

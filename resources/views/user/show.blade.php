@@ -1,7 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', $show->name)
 
-<div class="article-section">
     @section('content')
         @if(session('success'))
             <div class="col-md-12">
@@ -10,9 +10,9 @@
                 </div>
             </div>
         @endif
-    @if(Auth::user()->id == $id)
+    @if(Auth::user()->id == $id || Auth::user()->admin == 1)
         <a href="{{ route('users.edit', $show->id) }}">
-            <button class="btn btn-info pull-right">Modifier mon profil</button>
+            <button class="btn btn-info pull-right">Modifier le profil</button>
         </a>
             @endif
         <h2 class="profile-header">Profil de {{$show->name}}</h2>
@@ -20,6 +20,16 @@
         <hr>
 
         <div class="profile-content">
+            <div class="pull-right profilpicture">
+            @if(Storage::disk('uploads')->has($show->image))
+                <img src="{{route('articles.image', ['filename'=> $show->image])}}" alt="img"
+                     class="img-responsive">
+            @else
+            @endif
+            @if(!Storage::disk('uploads')->has($show->image))
+                <img src="{{ $show->image }}" alt="img" class="img-responsive">
+            @endif
+            </div>
                 <ul>
                     <li><b>Nom</b>: {{$show->name}}</li>
                     <li><b>E-mail</b>: {{$show->email}}</li>
@@ -48,5 +58,4 @@
                     @endforeach
                 </ul>
         </div>
-</div>
 @endsection

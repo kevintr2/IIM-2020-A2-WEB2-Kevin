@@ -17,7 +17,7 @@ class isCommentOwner
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::check() && Comment::find(intval($request->route('id')))->user_id == Auth::user()->id){
+        if(Auth::check() && Comment::find(intval($request->route('id')))->user_id == Auth::user()->id || Auth::user()->admin == 1){
             return $next($request);
         }else{
             return redirect('articles');

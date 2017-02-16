@@ -1,5 +1,7 @@
 @extends('layouts.admin')
 
+@section('pageTitle', 'Panneau d\'administrateur')
+
 @section('content')
 
     @if(session('success'))

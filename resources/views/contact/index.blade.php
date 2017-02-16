@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', 'Nous contacter')
+
 @section('content')
 
     @if(session('success'))

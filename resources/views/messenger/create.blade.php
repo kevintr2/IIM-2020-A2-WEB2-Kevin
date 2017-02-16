@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('pageTitle', 'Nouveau message')
+
 @section('content')
     <div >
     <h1 class="text-center">Commencer une nouvelle discussion</h1>
