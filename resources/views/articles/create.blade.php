@@ -1,17 +1,10 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <div class="row">
-            <div class="col-md-12 text-center">
-                <h1 style="text-align:center;">Publier un nouvel article</h1>
-            </div>
-        </div>
 
         @include('messages.errors')
+        <h2 class="text-center">Publier un nouvel article</h2>
 
-        <div class="row">
-            <div class="col-md-10 col-md-offset-1">
                 <form method="post" action="{{route('articles.store')}}" enctype="multipart/form-data">
                     {{csrf_field()}}
                     <div class="form-group">
@@ -30,8 +23,5 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Publier</button>
                 </form>
-            </div>
-        </div>
-    </div>
 
 @endsection

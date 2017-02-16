@@ -14,8 +14,23 @@
 
     <link href="https://fonts.googleapis.com/css?family=Montserrat:300,400" rel="stylesheet">
 
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"  integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
     <!-- Styles -->
     <link href="/css/app.css" rel="stylesheet">
+
+    <style>
+        body {
+            padding-top: 70px;
+        }
+    </style>
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
 
     <!-- Scripts -->
     <script>
@@ -40,7 +55,7 @@
                 </button>
 
                 <!-- Branding Image -->
-                <a class="navbar-brand" href="{{ url('/') }}">
+                <a class="navbar-brand" href="{{ url(route('articles.index')) }}">
                     <div class="nav-title">
                         <span class="nav-fit">fit</span>club
                     </div>
@@ -93,15 +108,27 @@
         <div class="col-md-3">
             <div class="sidebar">
                 <ul>
+                    <a href="{{route('articles.index')}}"><li><i class="fa fa-globe" aria-hidden="true"></i> Fil d'actualité</li></a>
+                    <a href="{{route('articles.create')}}"><li><i class="fa fa-pencil-square-o" aria-hidden="true"></i> Rédiger un article</li></a>
+                    <hr>
                     <a href="{{route('users.index')}}"><li><i class="fa fa-user-circle" aria-hidden="true"></i> Voir mon profil</li></a>
-                    <a href=""><li><i class="fa fa-pencil xtramargin" aria-hidden="true"></i> Modifier mon profil</li></a>
-                    <a href=""><li><i class="fa fa-list-alt" aria-hidden="true"></i> Voir mes articles</li></a>
+                    <a href="{{route('users.edit', Auth::user()->id)}}"><li><i class="fa fa-pencil xtramargin" aria-hidden="true"></i> Modifier mon profil</li></a>
                     <hr>
-                    <a href=""><li><i class="fa fa-comment" aria-hidden="true"></i> Messagerie</li></a>
+                    <a href="/messenger/create"><li><i class="fa fa-comment" ></i> Écrire un message</li></a>
+                    <a href="/messenger"><li><i class="fa fa-comments"></i> Messages @include('messenger.unread-count')</li></a>
                     <hr>
-                    <a href=""><li><i class="fa fa-book" aria-hidden="true"></i> Entraînements</li></a>
-                    <a href=""><li><i class="fa fa-cutlery xtramargin" aria-hidden="true"></i> Nutrition</li></a>
-                    <a href=""><li><i class="fa fa-globe" aria-hidden="true"></i> Motivation</li></a>
+                    <a href="{{route('contact.index')}}"><li><i class="fa fa-envelope" aria-hidden="true"></i> Nous contacter</li></a>
+                    <hr>
+                    @if(Auth::user()->admin == 1)
+                        <a href="{{route('admin.index')}}"><li><i class="fa fa-user-secret" aria-hidden="true"></i> Panneau d'administration</li></a>
+                    @else
+
+                    @endif
+                    <a href="{{ route('logout') }}"
+                       onclick="event.preventDefault();
+                                                     document.getElementById('logout-form').submit();">
+                        <li><i class="fa fa-sign-out" aria-hidden="true"></i> Se déconnecter</li>
+                    </a>
                 </ul>
             </div>
         </div>
@@ -116,7 +143,34 @@
 </div>
 
 <!-- Scripts -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/myjs.js"></script>
 <script src="/js/app.js"></script>
 <script src="https://use.fontawesome.com/f60a75a105.js"></script>
+<script>
+
+    var popupSize = {
+        width: 780,
+        height: 550
+    };
+
+    $(document).on('click', '.social-buttons > a', function(e){
+
+        var
+            verticalPos = Math.floor(($(window).width() - popupSize.width) / 2),
+            horisontalPos = Math.floor(($(window).height() - popupSize.height) / 2);
+
+        var popup = window.open($(this).prop('href'), 'social',
+            'width='+popupSize.width+',height='+popupSize.height+
+            ',left='+verticalPos+',top='+horisontalPos+
+            ',location=0,menubar=0,toolbar=0,status=0,scrollbars=1,resizable=1');
+
+        if (popup) {
+            popup.focus();
+            e.preventDefault();
+        }
+
+    });
+</script>
 </body>
 </html>

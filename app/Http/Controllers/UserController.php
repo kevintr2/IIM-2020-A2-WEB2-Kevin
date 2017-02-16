@@ -17,6 +17,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('isProfilOwner', ['only' => 'edit', 'update', 'destroy']);
     }
 
     /**
@@ -60,7 +61,9 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        //
+        $show = User::find($id);
+        $articles = $show->articles;
+        return view('user.show', compact('show', 'id', 'articles'));
     }
 
     /**
@@ -71,7 +74,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $edit = User::find($id);
+        return view('user.edit', compact('edit', 'id'));
     }
 
     /**
@@ -83,7 +87,12 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+            User::where('id', $id)->update([
+                'name' => $request->name,
+                'email' => $request->email,
+            ]);
+
+        return redirect()->route('users.index', [$id])->with('success', 'Profil modifié avec succès');
     }
 
     /**

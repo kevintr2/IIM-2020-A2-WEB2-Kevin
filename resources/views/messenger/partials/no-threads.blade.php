@@ -1,0 +1,1 @@
+<h2 class="text-center">Pas de message(s)</h2>
